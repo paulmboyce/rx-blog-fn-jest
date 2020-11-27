@@ -1,8 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
 
-const App = () => {
-	return <div>Hello App</div>;
-};
+import App from "./components/App";
+import { reducePosts } from "./reducers";
+const reducers = combineReducers({
+	posts: reducePosts,
+});
+const store = createStore(reducers);
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+ReactDOM.render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.querySelector("#root")
+);
