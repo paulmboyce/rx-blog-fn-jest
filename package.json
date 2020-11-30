@@ -18,6 +18,22 @@
 			"prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
 		}
 	},
+ "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "coverageReporters": ["text"]
+  },
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",

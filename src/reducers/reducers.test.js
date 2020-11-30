@@ -16,7 +16,6 @@ describe("test reducePosts", () => {
 		//ACT
 		const posts = reducePosts(undefined, action);
 		//ASS
-		console.log(posts);
 		expect(posts).toEqual([]);
 	});
 
