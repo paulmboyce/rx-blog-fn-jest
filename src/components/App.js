@@ -1,7 +1,13 @@
 import React from "react";
-import PostList from "./PostList";
+import { connect } from "react-redux";
 
-const App = () => {
+import PostList from "./PostList";
+import { getPostsAction } from "../actions";
+import { reducePosts } from "../reducers";
+
+const App = ({ getPostsAction }) => {
+	getPostsAction();
+
 	return (
 		<div className="ui container">
 			<br />
@@ -12,4 +18,7 @@ const App = () => {
 	);
 };
 
-export default App;
+const mapStateToProps = (state) => {
+	return { posts: reducePosts };
+};
+export default connect(mapStateToProps, { getPostsAction })(App);

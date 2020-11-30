@@ -1,5 +1,5 @@
 const reducePosts = (oldPosts = [], { type, payload }) => {
-	if ((type = "GET_POSTS")) {
+	if (type === "GET_POSTS") {
 		// get posts from axios
 		// do so as async/thunk
 
