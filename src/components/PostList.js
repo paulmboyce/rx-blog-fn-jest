@@ -3,13 +3,10 @@ import { connect } from "react-redux";
 
 import UserHeader from "./UserHeader";
 import { getPostsAction } from "../actions";
-import axiosJson from "../apis/axiosJsonPlaceholder";
 
 const PostList = ({ posts, dispatch }) => {
 	useEffect(() => {
-		axiosJson.get("/posts").then(({ data }) => {
-			dispatch(getPostsAction(data));
-		});
+		dispatch(getPostsAction());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
