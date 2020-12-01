@@ -1,7 +1,7 @@
-const getPostsAction = () => {
+const getPostsAction = (posts) => {
 	return {
 		type: "GET_POSTS",
-		payload: {},
+		payload: { posts },
 	};
 };
 

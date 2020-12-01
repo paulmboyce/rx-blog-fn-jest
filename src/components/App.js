@@ -3,9 +3,12 @@ import { connect } from "react-redux";
 
 import PostList from "./PostList";
 import { getPostsAction } from "../actions";
+import axiosJson from "../apis/axiosJsonPlaceholder";
 
 const App = ({ getPostsAction }) => {
-	getPostsAction();
+	axiosJson.get("/posts").then(({ data }) => {
+		getPostsAction(data);
+	});
 
 	return (
 		<div className="ui container">
