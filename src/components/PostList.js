@@ -5,10 +5,10 @@ import UserHeader from "./UserHeader";
 import { getPostsAction } from "../actions";
 import axiosJson from "../apis/axiosJsonPlaceholder";
 
-const PostList = ({ posts, getPostsAction }) => {
+const PostList = ({ posts, dispatch }) => {
 	useEffect(() => {
 		axiosJson.get("/posts").then(({ data }) => {
-			getPostsAction(data);
+			dispatch(getPostsAction(data));
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -32,6 +32,4 @@ const PostList = ({ posts, getPostsAction }) => {
 const mapStateToProps = (state) => {
 	return { posts: state.posts };
 };
-export default connect(mapStateToProps, {
-	getPostsAction,
-})(PostList);
+export default connect(mapStateToProps)(PostList);
