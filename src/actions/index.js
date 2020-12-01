@@ -1,6 +1,6 @@
 import axiosJson from "../apis/axiosJsonPlaceholder";
 
-const getPostsAction = (posts) => {
+const getPostsAction = () => {
 	return function (dispatch) {
 		return axiosJson.get("/posts").then(({ data }) => {
 			dispatch({
