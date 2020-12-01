@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import PostList from "./PostList";
@@ -6,10 +6,6 @@ import { getPostsAction } from "../actions";
 import axiosJson from "../apis/axiosJsonPlaceholder";
 
 const App = ({ getPostsAction }) => {
-	axiosJson.get("/posts").then(({ data }) => {
-		getPostsAction(data);
-	});
-
 	return (
 		<div className="ui container">
 			<br />
@@ -20,4 +16,4 @@ const App = ({ getPostsAction }) => {
 	);
 };
 
-export default connect(null, { getPostsAction })(App);
+export default App;

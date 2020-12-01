@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import UserHeader from "./UserHeader";
+import { getPostsAction } from "../actions";
+import axiosJson from "../apis/axiosJsonPlaceholder";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, getPostsAction }) => {
+	useEffect(() => {
+		axiosJson.get("/posts").then(({ data }) => {
+			getPostsAction(data);
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	const renderPosts = () => {
 		return posts.map((p) => (
 			<div className="item" key={p.title}>
@@ -23,4 +32,6 @@ const PostList = ({ posts }) => {
 const mapStateToProps = (state) => {
 	return { posts: state.posts };
 };
-export default connect(mapStateToProps)(PostList);
+export default connect(mapStateToProps, {
+	getPostsAction,
+})(PostList);
