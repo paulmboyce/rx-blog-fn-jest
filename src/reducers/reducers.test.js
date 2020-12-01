@@ -1,16 +1,13 @@
 import { reducePosts } from ".";
-import { getPostsAction } from "../actions";
 
 describe("test reducePosts", () => {
-	fit("returns correct num elements", async () => {
+	it("returns correct num elements", () => {
 		//ARR
-		const action = await getPostsAction();
-		console.log("ACTION", action);
+		const action = { type: "GET_POSTS", payload: { posts: [{}] } };
 		//ACT
 		const posts = reducePosts(null, action);
 		//ASS
-		//		console.log("POSTS: ", posts);
-		expect(posts).toHaveLength(100);
+		expect(posts).toHaveLength(1);
 	});
 
 	it("has a default original state (for any other type)", async () => {

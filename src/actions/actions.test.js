@@ -5,7 +5,6 @@ import { setupServer } from "msw/node";
 const server = setupServer(
 	// Describe the requests to mock.
 	rest.get("https://jsonplaceholder.typicode.com/posts", (req, res, ctx) => {
-		console.log("MSW Intercepted '/posts' OK");
 		return res(
 			ctx.status(200),
 			ctx.json([
@@ -39,12 +38,11 @@ describe("test getPostsAction", () => {
 
 		expect(typeof thunk).toBe("function");
 		expect(mockDispatcher).toBeCalledTimes(1);
-		console.log("TYPE: ", action.type);
-		console.log("PAYLOAD: ", action.payload);
-		expect(action.type).toBe("GET_POSTS");
 		expect(typeof action).toEqual("object");
-		expect(Array.isArray(action.payload.posts)).toEqual(true);
+		expect(action.type).toBe("GET_POSTS");
+
 		const posts = action.payload.posts;
+		expect(Array.isArray(posts)).toEqual(true);
 		expect(posts.length).toBeGreaterThan(0);
 		expect(posts[0].title).toBeTruthy();
 		expect(posts[0].author).toBeTruthy();
