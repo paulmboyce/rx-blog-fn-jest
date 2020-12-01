@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import PostList from "./PostList";
 import { getPostsAction } from "../actions";
-import { reducePosts } from "../reducers";
 
 const App = ({ getPostsAction }) => {
 	getPostsAction();
@@ -18,7 +17,4 @@ const App = ({ getPostsAction }) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	return { posts: reducePosts };
-};
-export default connect(mapStateToProps, { getPostsAction })(App);
+export default connect(null, { getPostsAction })(App);
