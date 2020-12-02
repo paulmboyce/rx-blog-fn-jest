@@ -1,4 +1,5 @@
 import axiosJson from "../apis/axiosJsonPlaceholder";
+import axiosJsonData from "../apis/axiosJsonPlaceholder";
 
 const getPostsAction = () => {
 	return function (dispatch) {
@@ -11,4 +12,15 @@ const getPostsAction = () => {
 	};
 };
 
-export { getPostsAction };
+const getAuthorsAction = () => {
+	return function (dispatch) {
+		return axiosJsonData.get("/users").then(({ data }) => {
+			dispatch({
+				type: "GET_AUTHORS",
+				payload: { authors: data },
+			});
+		});
+	};
+};
+
+export { getPostsAction, getAuthorsAction };

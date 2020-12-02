@@ -1,4 +1,4 @@
-import { getPostsAction } from ".";
+import { getPostsAction, getAuthorsAction } from ".";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
@@ -14,6 +14,10 @@ const server = setupServer(
 				},
 			])
 		);
+	}),
+	rest.get("https://jsonplaceholder.typicode.com/users", (req, res, ctx) => {
+		console.log("Called Mock: /users");
+		return res(ctx.status(200), ctx.json([{ some: "thing" }]));
 	})
 );
 
@@ -38,6 +42,7 @@ describe("test getPostsAction", () => {
 
 		expect(typeof thunk).toBe("function");
 		expect(mockDispatcher).toBeCalledTimes(1);
+
 		expect(typeof action).toEqual("object");
 		expect(action.type).toBe("GET_POSTS");
 
@@ -46,5 +51,25 @@ describe("test getPostsAction", () => {
 		expect(posts.length).toBeGreaterThan(0);
 		expect(posts[0].title).toBeTruthy();
 		expect(posts[0].author).toBeTruthy();
+	});
+});
+
+describe("test getAuthorsAction", () => {
+	it("calls /users", async () => {
+		//ARR
+		let action;
+		const mockDispatch = jest.fn((a) => {
+			action = a;
+		});
+
+		//ACT
+		const thunk = getAuthorsAction();
+		await thunk(mockDispatch);
+
+		//ASS
+		expect(typeof thunk).toEqual("function");
+		expect(mockDispatch).toHaveBeenCalledTimes(1);
+		expect(typeof action).toEqual("object");
+		expect(action.type).toBe("GET_AUTHORS");
 	});
 });
