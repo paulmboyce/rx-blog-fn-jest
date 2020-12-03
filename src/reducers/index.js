@@ -7,4 +7,11 @@ const reducePosts = (oldPosts = [], { type, payload }) => {
 	return oldPosts;
 };
 
-export { reducePosts };
+const reduceAuthors = (oldAuthors = [], { type, payload }) => {
+	if (type === "GET_AUTHORS") {
+		return payload.authors;
+	}
+
+	return oldAuthors;
+};
+export { reducePosts, reduceAuthors };

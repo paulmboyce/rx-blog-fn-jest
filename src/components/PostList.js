@@ -2,13 +2,18 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import UserHeader from "./UserHeader";
-import { getPostsAction } from "../actions";
+import { getPostsAction, getAuthorsAction } from "../actions";
 
-const PostList = ({ posts, dispatch }) => {
+const PostList = ({ posts, authors, dispatch }) => {
+	useEffect(() => {
+		dispatch(getAuthorsAction);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	useEffect(() => {
 		dispatch(getPostsAction());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [authors]);
 
 	const renderPosts = () => {
 		return posts.map((p) => (
@@ -27,6 +32,6 @@ const PostList = ({ posts, dispatch }) => {
 };
 
 const mapStateToProps = (state) => {
-	return { posts: state.posts };
+	return { posts: state.posts, authors: state.authors };
 };
 export default connect(mapStateToProps)(PostList);

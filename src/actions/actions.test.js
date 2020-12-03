@@ -16,8 +16,15 @@ const server = setupServer(
 		);
 	}),
 	rest.get("https://jsonplaceholder.typicode.com/users", (req, res, ctx) => {
-		console.log("Called Mock: /users");
-		return res(ctx.status(200), ctx.json([{ some: "thing" }]));
+		return res(
+			ctx.status(200),
+			ctx.json([
+				{
+					id: 1,
+					name: "John boy",
+				},
+			])
+		);
 	})
 );
 
@@ -49,8 +56,8 @@ describe("test getPostsAction", () => {
 		const posts = action.payload.posts;
 		expect(Array.isArray(posts)).toEqual(true);
 		expect(posts.length).toBeGreaterThan(0);
-		expect(posts[0].title).toBeTruthy();
-		expect(posts[0].author).toBeTruthy();
+		expect(posts[0]).toHaveProperty("title");
+		expect(posts[0]).toHaveProperty("author");
 	});
 });
 
@@ -71,5 +78,9 @@ describe("test getAuthorsAction", () => {
 		expect(mockDispatch).toHaveBeenCalledTimes(1);
 		expect(typeof action).toEqual("object");
 		expect(action.type).toBe("GET_AUTHORS");
+		const authors = action.payload.authors;
+		expect(authors.length).toBeGreaterThan(0);
+		expect(authors[0]).toHaveProperty("id");
+		expect(authors[0]).toHaveProperty("name");
 	});
 });
