@@ -1,19 +1,17 @@
-import { getPostsAction, getAuthorsAction } from ".";
+import { getPostsAction, getAuthorsAction } from "../actions";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
+const authors = [
+	{
+		title: "Lord of the Rings",
+		userId: "1",
+	},
+];
 const server = setupServer(
 	// Describe the requests to mock.
 	rest.get("https://jsonplaceholder.typicode.com/posts", (req, res, ctx) => {
-		return res(
-			ctx.status(200),
-			ctx.json([
-				{
-					title: "Lord of the Rings",
-					author: "J. R. R. Tolkien",
-				},
-			])
-		);
+		return res(ctx.status(200), ctx.json(authors));
 	}),
 	rest.get("https://jsonplaceholder.typicode.com/users", (req, res, ctx) => {
 		return res(
@@ -36,7 +34,7 @@ afterAll(() => {
 });
 
 describe("test getPostsAction", () => {
-	it("returns correct TYPE", async () => {
+	it("returns correct TYPE, and 'posts' have title and author", async () => {
 		//ARR
 		let action;
 		const mockDispatcher = jest.fn((a) => {
@@ -45,7 +43,9 @@ describe("test getPostsAction", () => {
 
 		//ACT
 		const thunk = getPostsAction(); //(mockDispatcher);
-		await thunk(mockDispatcher);
+		await thunk(mockDispatcher, () => {
+			return { authors };
+		});
 
 		expect(typeof thunk).toBe("function");
 		expect(mockDispatcher).toBeCalledTimes(1);
@@ -57,7 +57,27 @@ describe("test getPostsAction", () => {
 		expect(Array.isArray(posts)).toEqual(true);
 		expect(posts.length).toBeGreaterThan(0);
 		expect(posts[0]).toHaveProperty("title");
-		expect(posts[0]).toHaveProperty("author");
+		expect(posts[0]).toHaveProperty("userId");
+	});
+
+	it("returned action includes authors state", async () => {
+		//ARR
+		let action;
+		const mockDispatch = jest.fn((a) => {
+			action = a;
+		});
+
+		const mockGetState = jest.fn(() => {
+			return { authors };
+		});
+
+		//ACT
+		const thunk = getPostsAction(); //(mockDispatcher);
+		await thunk(mockDispatch, mockGetState);
+		//ASS
+		expect(typeof thunk).toBe("function");
+		expect(mockGetState).toBeCalledTimes(1);
+		expect(action.payload.authors).toBe(authors);
 	});
 });
 

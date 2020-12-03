@@ -6,12 +6,14 @@ import { getPostsAction, getAuthorsAction } from "../actions";
 
 const PostList = ({ posts, authors, dispatch }) => {
 	useEffect(() => {
-		dispatch(getAuthorsAction);
+		dispatch(getAuthorsAction());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		dispatch(getPostsAction());
+		if (authors.length > 0) {
+			dispatch(getPostsAction());
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [authors]);
 
@@ -22,7 +24,7 @@ const PostList = ({ posts, authors, dispatch }) => {
 				<div className="content">
 					<div className="header">{p.title}</div>
 					<div className="description">{p.body}</div>
-					<UserHeader name={p.authorName} />
+					<UserHeader name={p.author} />
 				</div>
 			</div>
 		));
@@ -32,6 +34,9 @@ const PostList = ({ posts, authors, dispatch }) => {
 };
 
 const mapStateToProps = (state) => {
-	return { posts: state.posts, authors: state.authors };
+	return {
+		posts: state.posts,
+		authors: state.authors,
+	};
 };
 export default connect(mapStateToProps)(PostList);

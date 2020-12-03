@@ -2,11 +2,15 @@ import axiosJson from "../apis/axiosJsonPlaceholder";
 import axiosJsonData from "../apis/axiosJsonPlaceholder";
 
 const getPostsAction = () => {
-	return function (dispatch) {
+	return function (dispatch, getState) {
 		return axiosJson.get("/posts").then(({ data }) => {
+			const { authors } = getState();
 			dispatch({
 				type: "GET_POSTS",
-				payload: { posts: data },
+				payload: {
+					posts: data,
+					authors: authors,
+				},
 			});
 		});
 	};

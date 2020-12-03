@@ -1,8 +1,18 @@
 const reducePosts = (oldPosts = [], { type, payload }) => {
 	if (type === "GET_POSTS") {
-		// get posts from axios
-		// do so as async/thunk
-		return payload.posts;
+		const { authors, posts } = payload;
+		if (authors && authors.length > 0) {
+			const authorsMap = new Map();
+			authors.forEach((a) => {
+				authorsMap.set(a.id, a);
+			});
+			const postsWithAuthors = posts.map((p) => {
+				const author = authorsMap.get(p.userId);
+				p["author"] = author.name;
+				return p;
+			});
+			return postsWithAuthors;
+		}
 	}
 	return oldPosts;
 };

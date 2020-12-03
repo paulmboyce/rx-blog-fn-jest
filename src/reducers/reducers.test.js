@@ -1,9 +1,26 @@
-import { reducePosts, reduceAuthors } from ".";
+import { reducePosts, reduceAuthors } from "../reducers";
+
+const AUTHORS = [
+	{
+		id: 1,
+		name: "John boy",
+	},
+	{
+		id: 2,
+		name: "Jane Doe",
+	},
+];
 
 describe("test reducePosts", () => {
 	it("returns correct num elements", () => {
 		//ARR
-		const action = { type: "GET_POSTS", payload: { posts: [{}] } };
+		const action = {
+			type: "GET_POSTS",
+			payload: {
+				posts: [{ userId: 1, title: "yeha" }],
+				authors: AUTHORS,
+			},
+		};
 		//ACT
 		const posts = reducePosts(null, action);
 		//ASS
@@ -38,16 +55,7 @@ describe("test reduceAuthors", () => {
 		action = {
 			type: "GET_AUTHORS",
 			payload: {
-				authors: [
-					{
-						id: 1,
-						name: "John boy",
-					},
-					{
-						id: 2,
-						name: "Jane Doe",
-					},
-				],
+				authors: AUTHORS,
 			},
 		};
 	});
