@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React from "react";
 
 import PostList from "./PostList";
-import { getPostsAction } from "../actions";
-import axiosJson from "../apis/axiosJsonPlaceholder";
 
-const App = ({ getPostsAction }) => {
+const App = () => {
 	return (
 		<div className="ui container">
 			<br />

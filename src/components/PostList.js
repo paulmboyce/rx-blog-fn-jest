@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import UserHeader from "./UserHeader";
-import { getPostsAction, getAuthorsAction } from "../actions";
+import getPostsAction from "../actions/getPostsAction";
+import getAuthorsAction from "../actions/getAuthorsAction";
 
 const PostList = ({ posts, authors, dispatch }) => {
 	useEffect(() => {
