@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import getAuthorsAction from "./getAuthorsAction";
+import getAuthorsAction from "./AuthorsAction";
 
 const server = setupServer(
 	// Describe the requests to mock.
