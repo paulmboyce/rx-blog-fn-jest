@@ -1,31 +1,8 @@
-const reducePosts = (oldPosts = [], { type, payload }) => {
-	switch (type) {
-		case "GET_POSTS":
-			const { authors, posts } = payload;
-			if (authors && authors.length > 0) {
-				const authorsMap = new Map();
-				authors.forEach((a) => {
-					authorsMap.set(a.id, a);
-				});
-				const postsWithAuthors = posts.map((p) => {
-					const author = authorsMap.get(p.userId);
-					p["author"] = author.name;
-					return p;
-				});
-				return postsWithAuthors;
-			}
-			break;
+import { combineReducers } from "redux";
+import reducePosts from "./reducePosts";
+import reduceAuthors from "./reduceAuthors";
 
-		default:
-			return oldPosts;
-	}
-};
-
-const reduceAuthors = (oldAuthors = [], { type, payload }) => {
-	if (type === "GET_AUTHORS") {
-		return payload.authors;
-	}
-
-	return oldAuthors;
-};
-export { reducePosts, reduceAuthors };
+export default combineReducers({
+	posts: reducePosts,
+	authors: reduceAuthors,
+});
