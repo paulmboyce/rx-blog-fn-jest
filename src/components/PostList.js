@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import UserHeader from "./UserHeader";
 import getPostsAction from "../actions/PostsAction";
-import getAuthorsAction from "../actions/AuthorsAction";
+import { getAuthorsAction } from "../actions/AuthorsAction";
 
 const PostList = ({ posts, authors, dispatch }) => {
 	useEffect(() => {
