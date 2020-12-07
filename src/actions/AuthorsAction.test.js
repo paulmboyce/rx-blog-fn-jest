@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import { getAuthorsAction, getOneAuthorAction } from "./AuthorsAction";
+import { getOneAuthorAction } from "./AuthorsAction";
 
 const AUTHORS = [
 	{
@@ -24,10 +24,12 @@ const server = setupServer(
 				console.log("We got an ID");
 				return res(
 					ctx.status(200),
-					ctx.json({
-						id: id,
-						name: "Cassia Eller",
-					})
+					ctx.json([
+						{
+							id: id,
+							name: "Cassia Eller",
+						},
+					])
 				);
 			} else {
 				return res(ctx.status(200), ctx.json(AUTHORS));
@@ -42,30 +44,6 @@ beforeAll(() => {
 
 afterAll(() => {
 	server.close();
-});
-
-describe("TEST: getAuthorsAction", () => {
-	it("calls /users for ALL", async () => {
-		//ARR
-		let action;
-		const mockDispatch = jest.fn((a) => {
-			action = a;
-		});
-
-		//ACT
-		const thunk = getAuthorsAction();
-		await thunk(mockDispatch);
-
-		//ASS
-		expect(typeof thunk).toEqual("function");
-		expect(mockDispatch).toHaveBeenCalledTimes(1);
-		expect(typeof action).toEqual("object");
-		expect(action.type).toBe("GET_ALL_AUTHORS");
-		const authors = action.payload.authors;
-		expect(authors.length).toBeGreaterThan(0);
-		expect(authors[0]).toHaveProperty("id");
-		expect(authors[0]).toHaveProperty("name");
-	});
 });
 
 describe("TEST: getOneAuthorAction", () => {

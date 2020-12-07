@@ -3,7 +3,7 @@ import { setupServer } from "msw/node";
 
 import getPostsAction from "./PostsAction";
 
-const authors = [
+const AUTHORS = [
 	{
 		title: "Lord of the Rings",
 		userId: "1",
@@ -13,7 +13,7 @@ const authors = [
 const server = setupServer(
 	// Describe the requests to mock.
 	rest.get("https://jsonplaceholder.typicode.com/posts", (req, res, ctx) => {
-		return res(ctx.status(200), ctx.json(authors));
+		return res(ctx.status(200), ctx.json(AUTHORS));
 	})
 );
 
@@ -34,9 +34,7 @@ describe("test getPostsAction", () => {
 
 		//ACT
 		const thunk = getPostsAction(); //(mockDispatcher);
-		await thunk(mockDispatcher, () => {
-			return { authors };
-		});
+		await thunk(mockDispatcher);
 
 		expect(typeof thunk).toBe("function");
 		expect(mockDispatcher).toBeCalledTimes(1);
@@ -49,25 +47,5 @@ describe("test getPostsAction", () => {
 		expect(posts.length).toBeGreaterThan(0);
 		expect(posts[0]).toHaveProperty("title");
 		expect(posts[0]).toHaveProperty("userId");
-	});
-
-	it("returned action includes authors state", async () => {
-		//ARR
-		let action;
-		const mockDispatch = jest.fn((a) => {
-			action = a;
-		});
-
-		const mockGetState = jest.fn(() => {
-			return { authors };
-		});
-
-		//ACT
-		const thunk = getPostsAction(); //(mockDispatcher);
-		await thunk(mockDispatch, mockGetState);
-		//ASS
-		expect(typeof thunk).toBe("function");
-		expect(mockGetState).toBeCalledTimes(1);
-		expect(action.payload.authors).toBe(authors);
 	});
 });

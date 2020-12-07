@@ -18,13 +18,12 @@ describe("test reducePosts", () => {
 			type: "GET_POSTS",
 			payload: {
 				posts: [{ userId: 1, title: "yeha" }],
-				authors: AUTHORS,
 			},
 		};
 		//ACT
-		const posts = reducePosts(null, action);
+		const posts = reducePosts(AUTHORS, action);
 		//ASS
-		expect(posts).toHaveLength(1);
+		expect(posts).toHaveLength(2 + 1);
 	});
 
 	it("has a default original state (for any other type)", async () => {

@@ -18,14 +18,9 @@ const getOneAuthorAction = (authorId) => {
 		const { authors } = getState();
 		const author = authors.filter(({ id }) => id === authorId)[0];
 
-		if (author !== undefined) {
+		if (author) {
 			console.log("GOT from state: ", author);
-			return new Promise(function (
-				resolve = () => {
-					console.log("Promise resolve called");
-					dispatch({ type: "GET_ONE_AUTHOR", payload: { author } });
-				}
-			) {
+			return new Promise(function (resolve = () => {}) {
 				dispatch({ type: "GET_ONE_AUTHOR", payload: { author } });
 				resolve("OK");
 			});
@@ -33,7 +28,7 @@ const getOneAuthorAction = (authorId) => {
 			return axiosJsonData
 				.get("/users", { params: { id: authorId } })
 				.then(({ data }) => {
-					dispatch({ type: "GET_ONE_AUTHOR", payload: { author: data } });
+					dispatch({ type: "GET_ONE_AUTHOR", payload: { author: data[0] } });
 				});
 		}
 	};

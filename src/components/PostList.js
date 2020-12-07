@@ -3,20 +3,15 @@ import { connect } from "react-redux";
 
 import UserHeader from "./UserHeader";
 import getPostsAction from "../actions/PostsAction";
-import { getAuthorsAction } from "../actions/AuthorsAction";
 
-const PostList = ({ posts, authors, dispatch }) => {
-	useEffect(() => {
-		dispatch(getAuthorsAction());
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	useEffect(() => {
-		if (authors.length > 0) {
+const PostList = ({ posts, dispatch }) => {
+	useEffect(
+		() => {
 			dispatch(getPostsAction());
-		}
+		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [authors]);
+		[]
+	);
 
 	const renderPosts = () => {
 		return posts.map((p) => (
@@ -25,7 +20,7 @@ const PostList = ({ posts, authors, dispatch }) => {
 				<div className="content">
 					<div className="header">{p.title}</div>
 					<div className="description">{p.body}</div>
-					<UserHeader name={p.author} />
+					<UserHeader id={p.userId} />
 				</div>
 			</div>
 		));
@@ -37,7 +32,6 @@ const PostList = ({ posts, authors, dispatch }) => {
 const mapStateToProps = (state) => {
 	return {
 		posts: state.posts,
-		authors: state.authors,
 	};
 };
 export default connect(mapStateToProps)(PostList);
