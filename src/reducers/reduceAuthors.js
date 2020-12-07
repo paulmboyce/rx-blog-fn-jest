@@ -1,6 +1,6 @@
 const reduceAuthors = (oldAuthors = [], { type, payload }) => {
 	switch (type) {
-		case "GET_AUTHORS":
+		case "GET_ALL_AUTHORS":
 			return payload.authors;
 
 		default:
