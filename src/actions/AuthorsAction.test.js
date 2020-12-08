@@ -16,19 +16,16 @@ const AUTHORS = [
 
 const server = setupServer(
 	rest.get(
-		"https://jsonplaceholder.typicode.com/users/?:id",
+		"https://jsonplaceholder.typicode.com/users/:id",
 		(req, res, ctx) => {
-			const id = req.url.searchParams.get("id");
-
+			const { id } = req.params;
 			if (id) {
 				return res(
 					ctx.status(200),
-					ctx.json([
-						{
-							id: id,
-							name: "Cassia Eller",
-						},
-					])
+					ctx.json({
+						id: id,
+						name: "Cassia Eller",
+					})
 				);
 			} else {
 				return res(ctx.status(200), ctx.json(AUTHORS));
@@ -61,11 +58,11 @@ describe("TEST: getOneAuthorAction", () => {
 		await thunk(mockDispatch, mockGetState);
 
 		//ASS
+		expect(mockDispatch).toHaveBeenCalledTimes(1);
+		expect(mockGetState).toHaveBeenCalledTimes(1);
 		expect(action).toHaveProperty("type");
 		expect(action).toHaveProperty("payload");
 		expect(action.payload.author.name).toBe("Cassia Eller");
-		expect(mockDispatch).toHaveBeenCalledTimes(1);
-		expect(mockGetState).toHaveBeenCalledTimes(1);
 	});
 
 	it("gets one author from existing state", async () => {

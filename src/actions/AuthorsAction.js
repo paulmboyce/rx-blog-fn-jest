@@ -19,11 +19,9 @@ const getOneAuthorAction = (authorId) => {
 };
 
 const getDataFromNetwork = (authorId, dispatch) => {
-	return axiosJson
-		.get("/users", { params: { id: authorId } })
-		.then(({ data }) => {
-			dispatch({ type: "GET_ONE_AUTHOR", payload: { author: data[0] } });
-		});
+	return axiosJson.get(`/users/${authorId}`).then(({ data }) => {
+		dispatch({ type: "GET_ONE_AUTHOR", payload: { author: data } });
+	});
 };
 
 const getDataMemoized = memoize(getDataFromNetwork, { promise: true });
