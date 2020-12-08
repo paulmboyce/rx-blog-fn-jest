@@ -1,16 +1,6 @@
-import axiosJson from "../apis/axiosJsonPlaceholder";
-import axiosJsonData from "../apis/axiosJsonPlaceholder";
+import memoize from "memoizee";
 
-const getAuthorsAction = () => {
-	return function (dispatch) {
-		return axiosJson.get("/users").then(({ data }) => {
-			dispatch({
-				type: "GET_ALL_AUTHORS",
-				payload: { authors: data },
-			});
-		});
-	};
-};
+import axiosJson from "../apis/axiosJsonPlaceholder";
 
 const getOneAuthorAction = (authorId) => {
 	console.log(`ENTER: getOneAuthorAction(id: ${authorId}) ...`);
@@ -25,13 +15,20 @@ const getOneAuthorAction = (authorId) => {
 				resolve("OK");
 			});
 		} else {
-			return axiosJsonData
-				.get("/users", { params: { id: authorId } })
-				.then(({ data }) => {
-					dispatch({ type: "GET_ONE_AUTHOR", payload: { author: data[0] } });
-				});
+			return getDataMemoized(authorId, dispatch);
 		}
 	};
 };
 
-export { getAuthorsAction, getOneAuthorAction };
+const getDataFromNetwork = (authorId, dispatch) => {
+	console.log("GOT from /users: ", authorId);
+	return axiosJson
+		.get("/users", { params: { id: authorId } })
+		.then(({ data }) => {
+			dispatch({ type: "GET_ONE_AUTHOR", payload: { author: data[0] } });
+		});
+};
+
+const getDataMemoized = memoize(getDataFromNetwork, { promise: true });
+
+export { getOneAuthorAction };
