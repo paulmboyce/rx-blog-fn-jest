@@ -21,7 +21,6 @@ const server = setupServer(
 			const id = req.url.searchParams.get("id");
 
 			if (id) {
-				console.log("We got an ID");
 				return res(
 					ctx.status(200),
 					ctx.json([
@@ -52,7 +51,6 @@ describe("TEST: getOneAuthorAction", () => {
 		let action;
 		const idDoesNotExistInState = 3;
 		const mockDispatch = jest.fn((a) => {
-			console.log("Called mockDispatch(action): ", a.payload);
 			action = a;
 		});
 		const mockGetState = jest.fn(() => {
