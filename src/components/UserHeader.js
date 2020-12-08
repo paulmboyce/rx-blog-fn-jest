@@ -6,7 +6,7 @@ const UserHeader = ({ dispatch, id, authors }) => {
 	const [author, setAuthor] = useState(null);
 
 	useEffect(() => {
-		const author = authors.filter((a) => a.id === id)[0];
+		const author = authors.find((a) => a.id === id);
 		if (author) {
 			setAuthor(author);
 		} else {
