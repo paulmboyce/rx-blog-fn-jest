@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import UserHeader from "./UserHeader";
-import getPostsAction from "../actions/PostsAction";
+import { fetchPostsAndUsers } from "../actions";
 
 const PostList = ({ posts, dispatch }) => {
 	useEffect(
 		() => {
-			dispatch(getPostsAction());
+			dispatch(fetchPostsAndUsers());
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[]

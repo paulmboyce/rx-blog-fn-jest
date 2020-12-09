@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import getPostsAction from "./PostsAction";
+import { getPostsAction } from "./PostsAction";
 
 const AUTHORS = [
 	{

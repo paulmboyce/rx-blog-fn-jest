@@ -13,4 +13,4 @@ const getPostsAction = () => {
 	};
 };
 
-export default getPostsAction;
+export { getPostsAction };

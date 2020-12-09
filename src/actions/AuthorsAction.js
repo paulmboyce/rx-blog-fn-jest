@@ -1,11 +1,9 @@
-import memoize from "memoizee";
-
 import axiosJson from "../apis/axiosJsonPlaceholder";
 import { GET_ONE_AUTHOR } from "./ActionTypes";
 
 const getOneAuthorAction = (authorId) => {
-	return (dispatch) => {
-		return getDataMemoized(authorId, dispatch);
+	return async (dispatch) => {
+		return await getDataFromNetwork(authorId, dispatch);
 	};
 };
 
@@ -14,7 +12,5 @@ const getDataFromNetwork = (authorId, dispatch) => {
 		dispatch({ type: GET_ONE_AUTHOR, payload: { author: data } });
 	});
 };
-
-const getDataMemoized = memoize(getDataFromNetwork, { promise: true });
 
 export { getOneAuthorAction };
