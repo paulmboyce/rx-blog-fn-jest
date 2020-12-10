@@ -7,8 +7,8 @@ const fetchPostsAndUsers = () => {
 		const { posts } = getState();
 		const ids = posts.map((p) => p.userId);
 		const uniqueIds = new Set(ids);
-		uniqueIds.forEach(async (userId) => {
-			await dispatch(getOneAuthorAction(userId));
+		uniqueIds.forEach((userId) => {
+			dispatch(getOneAuthorAction(userId));
 		});
 	};
 };
